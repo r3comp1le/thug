@@ -12,6 +12,8 @@ exploited by an attacker's content.
 Thug is a Python low-interaction honeyclient aimed at mimicing the behavior of a
 web browser in order to detect and emulate malicious contents.
 
+# Thug Web (Kame)
+https://github.com/r3comp1le/thug/tree/master/src/Web
 
 ## Documentation
 

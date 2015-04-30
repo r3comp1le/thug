@@ -29,6 +29,10 @@ try:
     svr_ip = config.get('Network', 'ip')
     svr_port = config.getint('Network', 'port')
     svr_debug = config.getboolean('Network', 'debug')
+    
+    #Auth Config
+    user = config.get('Auth', 'user')
+    passw = config.get('Auth', 'pass')
      
 except Exception as e:
      print "Kame Config File. Please Check the config file and try again"
@@ -45,7 +49,7 @@ class MyThug(ThugAPI):
 def check_auth(username, password):
     #This function is called to check if a username password combination is valid.
 	#Not the most secure!!!!!!!, Use a db or file instead
-    return username == 'kame' and password == 'kame123'
+    return username == user and password == passw
 
 def authenticate():
     # Sends a 401 response that enables basic auth

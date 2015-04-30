@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+	<div class="container">
+		<div class="row">
+		  <h2>Settings</h2>
+            <form class="form" id="settingsForm" role="form" action="/settingset" method="post">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Config</h3>
+                  </div>
+                  <div class="panel-body">
+                    Server<input type="text" class="form-control box-shadow" id="server" name="server" value="{{server}}"><br />
+                    Port<input type="text" class="form-control box-shadow" id="port" name="port" value="{{port}}"><br />
+                    GeoIP URL<input type="text" class="form-control box-shadow" id="geo" name="geo" value="{{geo}}"><br />
+                    Yara File Dir<input type="text" class="form-control box-shadow" id="yara" name="yara" value="{{yara}}"><br />
+                  </div>
+                </div>
+				<button type="submit" class="btn btn-primary" id="target">Set</button>
+			</form>
+			{% if errors %}
+			<br><div class="alert alert-danger" role="alert">{{errors}}</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endblock %}

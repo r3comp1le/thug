@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="{{url_for('static', filename='bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', filename='bootstrap/css/jumbotron.css')}}" rel="stylesheet"> 
+    
+    <script type='text/javascript' src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="{{url_for('static', filename='bootstrap/js/bootstrap.min.js')}}"></script>
+    
+    <script src="{{url_for('static', filename='bootstrap/js/jquery.tablesorter.js')}}"></script>
+    <script src="{{url_for('static', filename='bootstrap/js/bootstrap-table.js')}}"></script>
+    
+    <link href="{{url_for('static', filename='bootstrap/css/bootstrap-table.css')}}" rel="stylesheet">
+    <script src="{{url_for('static', filename='bootstrap/js/bootstrap-table-filter.min.js')}}"></script>
+	
+    <title>Kame</title>
+
+	
+	<style>
+	.progress .progress-bar.six-sec-ease-in-out {
+    -webkit-transition: width 6s ease-in-out;
+    -moz-transition: width 6s ease-in-out;
+    -ms-transition: width 6s ease-in-out;
+    -o-transition: width 6s ease-in-out;
+    transition: width 6s ease-in-out;
+	}
+	.url{
+	width: 400px;
+	}
+	</style>
+  </head>
+
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">Home</a>
+		  <a class="navbar-brand" href="/results">Results</a>
+<<<<<<< HEAD:web/templates/base.html
+          <a class="navbar-brand" href="/settings">Settings</a>
+=======
+>>>>>>> origin/master:src/Web/templates/base.html
+        </div>        
+        <div class="navbar-header pull-right">
+          <a class="navbar-brand">{{version}}</a>
+        </div>
+      </div>
+    </div>
+
+    {% block content %}{% endblock %}
+
+    <div class="container">
+      <footer><p>WebUI for Thug created by r3comp1le</p></footer>
+    </div> 
+  </body>
+</html>

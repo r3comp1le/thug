@@ -3,3 +3,4 @@ logs
 .project
 .pydevproject
 build
+*.DS_Store

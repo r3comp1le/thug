@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+    <script>
+    $(document).ready(function(){
+        $('#theform').submit(function(){
+        $('#logo').hide()
+        $('#loading').show()
+        })
+    });
+    </script>
+    
+<center>
+<div id="loading" style="display:none";><img src="{{url_for('static', filename='images/loading.gif')}}" alt="banner" class="img-rounded" height="271"></div>
+<div id="logo"><h1>Kame</h1></div>
+</center>
+<div class="jumbotron">
+		<div class="container">
+
+			<br /><br />
+            {% if thetime %}
+            <div class="alert alert-success" role="alert">{{status}}Report located <a href='/report/{{thetime}}'>HERE</a></div>
+            {% else %}
+            <div class="alert alert-success" role="alert">Ready</div>
+            {% endif %}
+			
+			<form class="form" id="theform" role="form" action="{{ url_for('submit') }}" method="post">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">URL</h3>
+                  </div>
+                  <div class="panel-body">
+                    <input type="text" class="form-control box-shadow" id="url" name="url" placeholder="http://www.badsite.com"><br />
+                  </div>
+                </div>
+
+
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Basic Options</h3>
+                  </div>
+                  <div class="panel-body">
+                    <div class="col-xs-2">UserAgent<select class="form-control" name="UserAgent" >{% include 'useragents.html' %}</select></div>
+                    <div class="col-xs-2">Adobe Reader <input type="text" class="form-control" id="reader" name="reader" placeholder="9.1.0"></div>
+					<div class="col-xs-2">Flash <input type="text" class="form-control" id="flash" name="flash" placeholder="10.0.64.0"></div>
+					<div class="col-xs-2">Java <input type="text" class="form-control" id="java" name="java" placeholder="1.6.0.32"></div>
+                  </div>
+                </div>
+                
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Adv Options</h3>
+                  </div>
+                  <div class="panel-body">
+                    <input type="text" class="form-control box-shadow" id="referer" name="referer" placeholder="http://www.referer.site"><br />
+                    <fieldset disabled><input type="text" class="form-control box-shadow" id="referer" name="referer" placeholder="Maximum pages to fetch"></fieldset><br />
+                    <fieldset disabled><input type="checkbox"> Extensive fetch of linked pages</fieldset><br />
+                  </div>
+                </div>
+                
+				<button type="submit" class="btn btn-primary" id="target">Go!</button>
+			</form>
+			{% if errors %}
+			<br><div class="alert alert-danger" role="alert">{{errors}}</div>
+			{% endif %}
+		</div>
+</div>
+{% endblock %}

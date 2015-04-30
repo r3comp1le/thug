@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+	<div class="container">
+		<div class="row">
+          <h2>Reports</h2>
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+            <h3 class="panel-title">Recent Reports</h3>
+            </div>
+            <div class="panel-body">
+            <div id="filter-bar"> </div>
+            <table id="table-pagination" data-toggle="table" data-show-columns="true" data-pagination="true" data-search="true" data-show-refresh="true" data-toolbar="#filter-bar" data-show-toggle="true" data-show-filter="true">
+                <thead>
+                    <tr>
+                      <th data-field="index" data-sortable="true">#</th>
+                      <th data-field="date" data-sortable="true">Date</th>
+                      <th data-field="url" data-sortable="true">URL</th>
+                      <th data-field="ip" data-sortable="true">IP</th>
+                      <th data-field="dl" data-sortable="true">Files</th>
+                    </tr>
+                </thead>
+				<tbody>
+                    {% set count = 0 %}
+					{% for report in past_reports %}
+                    {% set count = count + 1 %}
+					<tr>
+					<td>{{count}}</td>
+					<td>{{report.date}}</td>
+					<td><a href='report/{{report.time}}' target='_blank'> {{report.url}}</a></td>
+					<td>{{report.ip}} - {{report.country}} <img src='{{url_for('static', filename='bootstrap/flags/')}}{{report.countrycode}}.gif' height='15' width='20'></td>
+					<td><a href='download/{{report.time}}' target='_blank'> Download</a></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+            </div>
+          </div>
+		</div>
+	</div>
+</div>
+
+
+
+{% endblock %}

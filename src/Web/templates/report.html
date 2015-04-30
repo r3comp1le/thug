@@ -1,0 +1,276 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+	<div class="row">
+	  <div class="col-sm-3">
+		<div class="well bs-sidebar affix" id="sidebar">
+		  <ul class="nav nav-pills nav-stacked">
+			<li><a href="#details">Details</a></li>
+			<li><a href="#behav">Behaviour</a></li>
+			<li><a href="#conn">Connections</a></li>
+			<li><a href="#trans">Transactions</a></li>
+            <li><a href="#code">Code</a></li>
+			<li><a href="#files">Files</a></li>
+            <li><a href="#yara">Yara</a></li>
+		  </ul>
+		</div> 
+	  </div> 
+	</div>
+    <br>
+    <style>textarea{width:100%;}</style>
+	
+      <div class="container">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title" id="details">Details <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></h3>
+            </div>
+            <div class="panel-body">
+            {% for report in past_reports %}
+			<table class="table table-bordered">
+			  <tr>
+				<th class="info">URL</th>
+				<td>{{url}}</td>
+				<td>{{timestamp}}</td>
+				<td></td>
+			  </tr>
+			  <tr>
+				<th class="info">Location</th>
+				<td>{{report.ip}}</td>
+				<td>{{report.country}}  <img src='{{url_for('static', filename='bootstrap/flags/')}}{{report.countrycode}}.gif' height='15' width='20'></td>
+				<td></td>
+			  </tr>
+			  <tr>
+				<th class="info">Plugins</th>
+				<td>Java - {{java}}</td>
+				<td>Adobe Reader - {{reader}}</td>
+				<td>Adobe Flash - {{flash}}</td>
+			  </tr>
+			  <tr>
+				<th class="info">Referer</th>
+				<td>{{referer}}</td>
+				<td></td>
+				<td></td>
+			  </tr>
+			  <tr>
+				<th class="info">UserAgent</th>
+				<td>{{report.UserAgent}}</td>
+				<td></td>
+				<td></td>
+			  </tr>
+			</table>
+			{% set id = report.time %}
+			{% endfor %}
+            </div>
+        </div>
+
+	  </div>
+
+      <div class="container">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title" id="behav">Behaviour <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span></h3>
+            </div>
+            <div class="panel-body">
+            <div id="filter-bar1"> </div>
+            <!-- method, description, timestamp, cve -->
+            <table id="table-pagination1" data-toggle="table" data-show-columns="true" data-pagination="true" data-search="true" data-show-refresh="true" data-toolbar="#filter-bar1" data-show-toggle="true" data-show-filter="true">
+                <thead>
+                    <tr>
+                      <th data-field="time" data-sortable="true">Time</th>
+                      <th data-field="meth" data-sortable="true">Method</th>
+                      <th data-field="det" data-sortable="true">Details</th>
+                      <th data-field="cve" data-sortable="true">CVE</th>
+                    </tr>
+                </thead>
+				<tbody>
+			{% for behavior in behaviors %}
+			<tr>
+			<td>{{behavior.timestamp}}</td>
+            <td>{{behavior.method}}</td>
+            <td>{{behavior.description}}</td>
+            <td>{{behavior.cve}}</td>
+			</tr>
+			{% endfor %}
+            </tbody>
+			</table>
+            </div>
+        </div>
+	  </div>
+	
+      <div class="container">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title"  id="conn">Connections <span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span></h3>
+            </div>
+            <div class="panel-body">
+            <div id="filter-bar2"> </div>
+            <table id="table-pagination2" data-toggle="table" data-show-columns="true" data-pagination="true" data-search="true" data-show-refresh="true" data-toolbar="#filter-bar2" data-show-toggle="true" data-show-filter="true">
+                <thead>
+                    <tr>
+                      <th data-field="source" data-sortable="true">Source</th>
+                      <th data-field="dest" data-sortable="true">Destination</th>
+                      <th data-field="method" data-sortable="true">Method</th>
+                    </tr>
+                </thead>
+				<tbody>
+				{% for connection in connections %}
+				<tr>
+				<td>{{connection.source}}</td>
+				<td>{{connection.destination}}</td>
+				<td>{{connection.method}}</td>
+				</tr>
+				{% endfor %}
+                </tbody>
+			</table>
+            </div>
+        </div>
+          
+	  </div>
+	
+      <div class="container">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title" id="trans">Graph <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></h3>
+            </div>
+            <div class="panel-body">
+                <a href="/graph/{{id}}/graph.svg" target="_blank"><img src="/graph/{{id}}/graph.svg" width="800" height="500"></a>
+            </div>
+        </div>
+			
+	  </div>
+    
+      <div class="container">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title" id="code">Code Snippets <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span></h3>
+            </div>
+            <div class="panel-body">
+            <div id="filter-bar3"> </div>
+            <table id="table-pagination3" data-toggle="table" data-show-columns="true" data-pagination="true" data-search="true" data-show-refresh="true" data-toolbar="#filter-bar3" data-show-toggle="true" data-show-filter="true">
+                <thead>
+                    <tr>
+                      <th data-field="num" data-sortable="true">#</th>
+                      <th data-field="rel" data-sortable="true">Relationship</th>
+                      <th data-field="lang" data-sortable="true">Language</th>
+                      <th data-field="meth" data-sortable="true">Method</th>
+                      <th data-field="display" data-sortable="true">Display</th>
+                    </tr>
+                </thead>
+				<tbody>
+            {% set count = 0 %}
+			{% for codes in code %}
+            {% set count = count + 1 %}
+                <tr>
+                <td>{{count}}</td>
+                <td>{{codes.relationship}}</td>
+                <td>{{codes.language}}</td>
+                <td>{{codes.method}}</td>
+                <td><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal{{count}}">Show</button></td>
+                </tr>
+            {% endfor %}
+                </tbody>
+			</table>
+            {% set count = 0 %}
+			{% for codes in code %}
+            {% set count = count + 1 %}
+            <div class="modal fade" id="myModal{{count}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel{{count}}" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel{{count}}">{{codes.relationship}}</h4>
+                  </div>
+                  <div class="modal-body">
+                    <textarea>
+                    {{codes.snippet}}
+                    </textarea>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            </div>
+        </div>
+	  </div>
+	
+      <div class="container">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title" id="files">Files in ZIP <span class="glyphicon glyphicon-download" aria-hidden="true"></span></h3>
+            </div>
+            <div class="panel-body">
+            <a class="btn btn-danger" href='/download/{{id}}' target='_blank'> Download All</a>
+            <div id="filter-bar4"> </div>
+            <table id="table-pagination4" data-toggle="table" data-show-columns="true" data-pagination="true" data-search="true" data-show-refresh="true" data-toolbar="#filter-bar4" data-show-toggle="true" data-show-filter="true">
+                <thead>
+                    <tr>
+                      <th data-field="content" data-sortable="true">Content</th>
+                      <th data-field="url" data-sortable="true">URL</th>
+                      <th data-field="md5" data-sortable="true">MD5</th>
+                      <th data-field="search" data-sortable="true">Search</th>
+                    </tr>
+                </thead>
+				<tbody>
+				{% for location in locations %}
+				<tr>
+				<td>{{location['content-type']}}</td>
+				<td>{{location.url}}</td>
+				{% if location.md5 %}
+					<td>{{location.md5}}</td>
+                    <td><a href='https://www.virustotal.com/en/file/{{location.sha256}}/analysis/' target='_blank'>VT</a></td>
+				{% endif %}
+				</tr>
+				{% endfor %}
+                </tbody>
+			</table>
+            </div>
+        </div>
+		 
+	  </div>
+      
+      <div class="container">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title" id="yara">Yara Results <span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span></h3>
+            </div>
+            <div class="panel-body">
+            <div class="alert alert-{{yara_bool}}" role="alert">{{yara_stat}}</div>
+            {% if yara_bool == 'success' %}
+            <div id="filter-bar5"> </div>
+            <table id="table-pagination5" data-toggle="table" data-show-columns="true" data-pagination="true" data-search="true" data-show-refresh="true" data-toolbar="#filter-bar5" data-show-toggle="true" data-show-filter="true">
+                <thead>
+                    <tr>
+                      <th data-field="file" data-sortable="true">File</th>
+                      <th data-field="rule" data-sortable="true">Rule</th>
+                      <th data-field="string" data-sortable="true">Match</th>
+                    </tr>
+                </thead>
+				<tbody>
+				{% for hits in yara_json %}
+                    {% for temp in hits['alerts'] %}
+                    <tr>
+                    <td>{{hits['filename']}}</td>
+                    <td>{{temp['rulename']}}</td>
+                    <td>
+                        {% for data in temp['strings'] %}
+                            {{data['identifier']}} : {{data['data']}}<br>
+                        {% endfor %}
+                    </td>
+                    </tr>
+                    {% endfor %}
+				{% endfor %}
+                </tbody>
+			</table>
+            {% else %}
+            {% endif %}
+            </div>
+        </div>
+		 
+	  </div>
+	
+{% endblock %}

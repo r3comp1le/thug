@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+		<div class="container">
+		<center>
+            {% if errors %}
+			<br><div class="alert alert-danger" role="alert">{{errors}}</div>
+			{% endif %}
+		</center>
+		</div>
+</div>
+{% endblock %}
